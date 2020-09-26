@@ -18,30 +18,30 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
   newComment.date = new Date().toISOString();
   
   return fetch(baseUrl + 'comments', {
-      method: "POST",
-      body: JSON.stringify(newComment),
-      headers: {
-        "Content-Type": "application/json"
-      },
-      credentials: "same-origin"
-  })
-  .then(response => {
-      if (response.ok) {
-        return response;
-      } else {
-        var error = new Error('Error ' + response.status + ': ' + response.statusText);
-        error.response = response;
-        throw error;
-      }
-    },
-    error => {
-          throw error;
+        method: "POST",
+        body: JSON.stringify(newComment),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "same-origin"
     })
-  .then(response => response.json())
-  .then(response => dispatch(addComment(response)))
-  .catch(error =>  { 
-    console.log('post comments', error.message); 
-    alert('Your comment could not be posted\nError: '+error.message); });
+    .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error('Error ' + response.status + ': ' + response.statusText);
+          error.response = response;
+          throw error;
+        }
+      },
+      error => {
+            throw error;
+      })
+    .then(response => response.json())
+    .then(response => dispatch(addComment(response)))
+    .catch(error =>  { 
+      console.log('post comments', error.message); 
+      alert('Your comment could not be posted\nError: '+error.message); });
 };
 
 
@@ -150,7 +150,7 @@ export const addPromos = (promos) => ({
     payload: promos
 });
 
-
+///Task1
 
 export const fetchLeaders = () => (dispatch) => {
   dispatch(leadersLoading(true));
@@ -187,3 +187,44 @@ export const addLeaders = (leaders) => ({
   type: ActionTypes.ADD_LEADERS,
   payload: leaders
 }); 
+
+///Task2
+
+export const addFeedback = (feedback) => ({
+  type: ActionTypes.ADD_FEEDBACK,
+  payload: feedback
+});
+
+export const postFeedback = (feedback) => (dispatch) => {
+
+  const newFeedback = {
+      feedback: feedback
+  };
+
+  newFeedback.date = new Date().toISOString();
+
+  return fetch(baseUrl + 'feedback', {
+      method: "POST",
+      body: JSON.stringify(newFeedback),
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "same-origin"
+      })
+      .then(response => {
+          if (response.ok) {
+              return response;
+          } else {
+              var error = new Error('Error ' + response.status + ': ' + response.statusText);
+              error.response = response;
+              throw error;
+          }
+      },
+      error => {
+          throw error;
+      })
+      .then(response => response.json())
+      .then(response => dispatch(addFeedback(response)))
+      .catch(error =>  { console.log('Post Feedback', error.message);
+          alert('Your Feedback could not be posted\nError: '+error.message); });
+}; 
